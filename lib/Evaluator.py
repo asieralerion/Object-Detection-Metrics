@@ -14,10 +14,11 @@ from collections import Counter
 
 import matplotlib.pyplot as plt
 import numpy as np
+from torch import float64
 
-from BoundingBox import *
-from BoundingBoxes import *
-from utils import *
+from .BoundingBox import *
+from .BoundingBoxes import *
+from .utils import *
 
 
 class Evaluator:
@@ -123,7 +124,7 @@ class Evaluator:
             # compute precision, recall and average precision
             acc_FP = np.cumsum(FP)
             acc_TP = np.cumsum(TP)
-            rec = acc_TP / npos
+            rec = acc_TP / npos if npos != 0 else np.array([])
             prec = np.divide(acc_TP, (acc_FP + acc_TP))
             # Depending on the method, call the right implementation
             if method == MethodAveragePrecision.EveryPointInterpolation:
